@@ -1,5 +1,6 @@
 import fs from 'fs';
 import test from 'ava';
+import timeSpan from 'time-span';
 import m from '.';
 
 test('valid SVGs', t => {
@@ -48,4 +49,16 @@ test('supports non-english characters', t => {
 	  <text x="200" y="200" font-size="20">داستان SVG 1.1 SE طولا ني است.</text>
 
 	</svg>`));
+});
+
+test('regex should not be quadratic', t => {
+	const end = timeSpan();
+
+	m(`<!doctype svg ${' '.repeat(34560)}`);
+
+	if (end.seconds() < 10) {
+		t.pass();
+	} else {
+		t.fail();
+	}
 });

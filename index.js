@@ -15,6 +15,13 @@ function isBinary(buf) {
 	return false;
 }
 
+const removeDtdMarkupDeclarations = svg => svg.replace(/\[?(?:\s*<![A-Z]+[^>]*>\s*)*\]?/g, '');
+
+const clean = svg => {
+	svg = removeDtdMarkupDeclarations(svg);
+	return svg;
+};
+
 const regex = /^\s*(?:<\?xml[^>]*>\s*)?(?:<!doctype svg[^>]*\s*(?:\[?(?:\s*<![^>]*>\s*)*\]?)*[^>]*>\s*)?<svg[^>]*>[^]*<\/svg>\s*$/i;
 
-module.exports = input => Boolean(input) && !isBinary(input) && regex.test(input.toString().replace(htmlCommentRegex, ''));
+module.exports = input => Boolean(input) && !isBinary(input) && regex.test(clean(input.toString()).replace(htmlCommentRegex, ''));

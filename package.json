@@ -39,6 +39,7 @@
 	},
 	"devDependencies": {
 		"ava": "*",
-		"xo": "*"
+		"xo": "*",
+		"time-span": "^4.0.0"
 	}
 }
